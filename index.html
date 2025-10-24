@@ -1,0 +1,140 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ValCare</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>ValCare</h1>
+    <h2>Veterinaria Integral</h2>
+    
+  </header>
+
+  <nav>
+    <a href="#nosotros">Nosotros<nosotros class="html"></nosotros></a>
+    <a href="#servicios">Servicios<servicios class="htm"></servicios></a>
+    <a href="#contacto">Contacto<contacto class="html"></contacto></a>
+  </nav>
+
+  <section id="nosotros">
+    <h2>Sobre Nosotros</h2>
+    <h1>Fundación</h1><p>Soy Diana Valentina Medellín León, doctora veterinaria 
+      y fundadora de ValCare, un sueño nacido del amor y respeto hacia 
+      todos los animales. Desde pequeña sentí una profunda conexión
+       con ellos, y hoy transformo esa pasión en una misión: cuidar,
+        sanar y proteger la vida de quienes nos brindan compañía, 
+        alimento y cariño incondicional.
+Con ValCare, busco ofrecer mucho más que un servicio veterinario: 
+un lugar donde cada animal sea tratado con dedicación, empatía y 
+esperanza, porque cada vida, grande o pequeña, merece ser valorada y 
+cuidada.</p>
+    <p>Nuestro objetivo general es brindar atención médica integral, preventiva y curativa a
+       animales domésticos y de granja, garantizando su salud,
+        bienestar y productividad mediante servicios veterinarios
+         de calidad, personal capacitado y el uso de tecnologías 
+         modernas, promoviendo además la tenencia responsable y el
+          respeto hacia todas las especies animales.</p>
+  </section>
+
+  <section id="servicios">
+    <h2>Servicios</h2>
+    <div class="services">
+      <div class="card">
+        <h1>Resumen de servicios</h1><p>ValCare ofrece atención
+           veterinaria integral para animales domésticos y de granja,
+            incluyendo consultas, vacunación, cirugías, urgencias y 
+            control nutricional. También brinda servicios en campo,
+             programas de reproducción y sanidad animal, asesorías 
+             en bienestar y producción.</p>
+        <h3>Consultas Médicas</h3>
+        <p>Ofrecemos consultas veterinarias profesionales para animales 
+          domésticos y de granja, enfocadas en el diagnóstico, 
+          prevención y tratamiento de enfermedades. Cada atención
+           incluye evaluación física completa, revisión de vacunas,
+            control nutricional y asesoramiento personalizado para
+             garantizar el bienestar y la salud de cada animal.</p>
+      </div>
+      <div class="card">
+        <h3>Vacunación</h3>
+        <p>Realizamos programas de vacunación preventiva para animales 
+          domésticos y de granja, con el fin de protegerlos contra 
+          enfermedades infecciosas y mantener su salud a largo plazo.
+          Se aplican vacunas seguras y actualizadas según la especie, 
+          edad y necesidades de cada animal.</p>
+      </div>
+    
+      <div class="card">
+        <h3>Emergencias 24/7</h3>
+        <p>brinda atención veterinaria de urgencias las 24 horas, 
+          los 7 días de la semana, para responder de forma inmediata
+          ante accidentes, enfermedades graves o partos complicados.
+           El equipo médico está preparado para ofrecer asistencia
+            rápida y eficaz, priorizando la vida y bienestar de cada
+             animal.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto">
+    <h2>Contacto</h2>
+    <!-- ...existing code... -->
+<section id="contacto">
+  <h2>Contacto</h2>
+
+  <form id="formContacto" novalidate>
+    <div class="form-row">
+      <label for="nombre">Nombre completo:</label>
+      <input type="text" id="nombre" name="nombre" required>
+    </div>
+
+    <div class="form-row">
+      <label for="email">Correo electrónico:</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+
+    <div class="form-row">
+      <label for="telefono">Teléfono:</label>
+      <input type="tel" id="telefono" name="telefono" pattern="[0-9\s\-\+]{7,15}">
+    </div>
+
+    <div class="form-row">
+      <label for="tipo">Tipo de mascota:</label>
+      <select id="tipo" name="tipo">
+        <option value="perro">Perro</option>
+        <option value="gato">Gato</option>
+        <option value="otro">Otro</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label for="mensaje">Mensaje:</label>
+      <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit">Enviar consulta</button>
+      <button type="reset">Limpiar</button>
+    </div>
+  </form>
+
+  <div id="respuesta" aria-live="polite"></div>
+</section>
+<!-- ...existing code... -->
+    <p>📍 Dirección: Av.Carrera 86#55A-75 Engativá, Bogotá-Cundinamarca</p>
+    <p>📞 Teléfono: 313 8314615</p>
+    <p>✉️ Email: valentiinaleon@gmail.com</p>
+    
+  </section>
+
+  <footer>
+    <p>© 2025 ValCare Clínica Veterinaria Integral - Todos los derechos reservados</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
