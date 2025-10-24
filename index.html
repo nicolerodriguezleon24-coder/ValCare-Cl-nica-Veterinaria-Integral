@@ -1,140 +1,177 @@
-
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ValCare</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Clínica Arboleda - Cuida a tu mascota</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>ValCare</h1>
-    <h2>Veterinaria Integral</h2>
-    
-  </header>
-
-  <nav>
-    <a href="#nosotros">Nosotros<nosotros class="html"></nosotros></a>
-    <a href="#servicios">Servicios<servicios class="htm"></servicios></a>
-    <a href="#contacto">Contacto<contacto class="html"></contacto></a>
-  </nav>
-
-  <section id="nosotros">
-    <h2>Sobre Nosotros</h2>
-    <h1>Fundación</h1><p>Soy Diana Valentina Medellín León, doctora veterinaria 
-      y fundadora de ValCare, un sueño nacido del amor y respeto hacia 
-      todos los animales. Desde pequeña sentí una profunda conexión
-       con ellos, y hoy transformo esa pasión en una misión: cuidar,
-        sanar y proteger la vida de quienes nos brindan compañía, 
-        alimento y cariño incondicional.
-Con ValCare, busco ofrecer mucho más que un servicio veterinario: 
-un lugar donde cada animal sea tratado con dedicación, empatía y 
-esperanza, porque cada vida, grande o pequeña, merece ser valorada y 
-cuidada.</p>
-    <p>Nuestro objetivo general es brindar atención médica integral, preventiva y curativa a
-       animales domésticos y de granja, garantizando su salud,
-        bienestar y productividad mediante servicios veterinarios
-         de calidad, personal capacitado y el uso de tecnologías 
-         modernas, promoviendo además la tenencia responsable y el
-          respeto hacia todas las especies animales.</p>
-  </section>
-
-  <section id="servicios">
-    <h2>Servicios</h2>
-    <div class="services">
-      <div class="card">
-        <h1>Resumen de servicios</h1><p>ValCare ofrece atención
-           veterinaria integral para animales domésticos y de granja,
-            incluyendo consultas, vacunación, cirugías, urgencias y 
-            control nutricional. También brinda servicios en campo,
-             programas de reproducción y sanidad animal, asesorías 
-             en bienestar y producción.</p>
-        <h3>Consultas Médicas</h3>
-        <p>Ofrecemos consultas veterinarias profesionales para animales 
-          domésticos y de granja, enfocadas en el diagnóstico, 
-          prevención y tratamiento de enfermedades. Cada atención
-           incluye evaluación física completa, revisión de vacunas,
-            control nutricional y asesoramiento personalizado para
-             garantizar el bienestar y la salud de cada animal.</p>
+  <div class="app">
+    <header class="topbar" role="banner">
+      <div class="brand">
+        <!-- Simple SVG mascot for uniqueness -->
+        <svg class="mascot" viewBox="0 0 100 100" aria-hidden="true">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0" stop-color="#FFB77A"/>
+              <stop offset="1" stop-color="#FF8BA3"/>
+            </linearGradient>
+          </defs>
+          <circle cx="50" cy="48" r="36" fill="url(#g1)"/>
+          <circle cx="36" cy="40" r="6" fill="#fff"/>
+          <circle cx="64" cy="40" r="6" fill="#fff"/>
+          <path d="M36 60 Q50 72 64 60" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <h1>Clínica Arboleda</h1>
+          <p class="tagline">Salud y ternura para tus compañeros</p>
+        </div>
       </div>
-      <div class="card">
-        <h3>Vacunación</h3>
-        <p>Realizamos programas de vacunación preventiva para animales 
-          domésticos y de granja, con el fin de protegerlos contra 
-          enfermedades infecciosas y mantener su salud a largo plazo.
-          Se aplican vacunas seguras y actualizadas según la especie, 
-          edad y necesidades de cada animal.</p>
+
+      <div class="top-actions">
+        <button id="theme-toggle" aria-pressed="false" title="Cambiar tema">🌙</button>
+        <input id="search-input" type="search" placeholder="Buscar paciente..." aria-label="Buscar paciente">
+        <button id="open-gallery" title="Galería">📸</button>
       </div>
-    
-      <div class="card">
-        <h3>Emergencias 24/7</h3>
-        <p>brinda atención veterinaria de urgencias las 24 horas, 
-          los 7 días de la semana, para responder de forma inmediata
-          ante accidentes, enfermedades graves o partos complicados.
-           El equipo médico está preparado para ofrecer asistencia
-            rápida y eficaz, priorizando la vida y bienestar de cada
-             animal.</p>
+    </header>
+
+    <nav class="navigation" role="navigation" aria-label="Navegación principal">
+      <a href="#inicio">Inicio</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#citas">Citas</a>
+      <a href="#pacientes">Pacientes</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+
+    <main class="layout" id="inicio">
+      <section class="intro" aria-labelledby="intro-title">
+        <h2 id="intro-title">Bienvenido a Clínica Arboleda</h2>
+        <p class="lead">Cuidamos a tus animales con cariño, ciencia y un poquito de ternura. Aquí tienes herramientas prácticas: agendar citas, registrar pacientes y ver la galería de pacientes felices.</p>
+
+        <div class="features">
+          <article class="card">
+            <h3>Atención integral</h3>
+            <p>Consultas, vacunas y urgencias con profesionales.</p>
+          </article>
+          <article class="card">
+            <h3>Laboratorio</h3>
+            <p>Diagnósticos rápidos y confiables.</p>
+          </article>
+          <article class="card">
+            <h3>Consejos</h3>
+            <p>Guías de cuidado, alimentación y prevención.</p>
+          </article>
+        </div>
+      </section>
+
+      <aside class="panel panel-left" aria-labelledby="citas-title">
+        <h2 id="citas-title">Agendar cita</h2>
+        <form id="appointment-form" novalidate>
+          <label for="pet-name">Nombre de la mascota</label>
+          <input id="pet-name" name="petName" required minlength="2" placeholder="Ej: Oso">
+
+          <div class="row">
+            <label for="owner-name">Dueño/a</label>
+            <input id="owner-name" name="ownerName" required placeholder="Ej: Ana Pérez">
+          </div>
+
+          <div class="row small">
+            <label for="species">Especie</label>
+            <select id="species" name="species">
+              <option value="Perro">Perro</option>
+              <option value="Gato">Gato</option>
+              <option value="Ave">Ave</option>
+              <option value="Exótico">Exótico</option>
+            </select>
+
+            <label for="age">Edad (años)</label>
+            <input id="age" name="age" type="number" min="0" placeholder="2">
+          </div>
+
+          <label for="notes">Notas (síntomas / observaciones)</label>
+          <textarea id="notes" name="notes" rows="3" placeholder="Descripción breve..."></textarea>
+
+          <div class="form-actions">
+            <button type="button" class="btn ghost" id="reset-form">Reset</button>
+            <button type="submit" class="btn primary">Reservar cita</button>
+          </div>
+
+          <div id="form-msg" role="status" aria-live="polite" class="muted small"></div>
+        </form>
+
+        <hr>
+
+        <h3>Filtros</h3>
+        <label for="filter-species">Especie</label>
+        <select id="filter-species">
+          <option value="all">Todas</option>
+          <option value="Perro">Perro</option>
+          <option value="Gato">Gato</option>
+        </select>
+      </aside>
+
+      <section class="panel-center" aria-labelledby="patients-title">
+        <h2 id="patients-title">Pacientes registrados <span id="count">0</span></h2>
+
+        <div class="controls">
+          <input id="quick-search" type="search" placeholder="Buscar por nombre o dueño..." aria-label="Buscar pacientes en la tabla">
+          <button id="add-sample" class="btn">+ muestra</button>
+          <button id="clear-all" class="btn ghost">🗑 Limpiar</button>
+        </div>
+
+        <div class="table-wrap" role="region" aria-label="Tabla de pacientes">
+          <table class="pet-table" aria-describedby="pet-desc">
+            <caption id="pet-desc">Pacientes guardados en el sistema</caption>
+            <thead>
+              <tr>
+                <th>Nombre</th><th>Especie</th><th>Edad</th><th>Dueño</th><th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="pets-body">
+              <!-- filas dinámicas -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <aside class="panel-right" aria-labelledby="gallery-title">
+        <h2 id="gallery-title">Galería</h2>
+        <p class="muted small">Mascotas felices (haz click para ampliar)</p>
+        <div class="gallery" id="gallery">
+          <!-- mini-cards -->
+          <button class="thumb" data-name="Fido" data-species="Perro" aria-label="Abrir Fido">🐶 Fido</button>
+          <button class="thumb" data-name="Misu" data-species="Gato" aria-label="Abrir Misu">🐱 Misu</button>
+          <button class="thumb" data-name="Luna" data-species="Perro" aria-label="Abrir Luna">🐕 Luna</button>
+          <button class="thumb" data-name="Kiwi" data-species="Ave" aria-label="Abrir Kiwi">🦜 Kiwi</button>
+        </div>
+
+        <hr>
+
+        <div class="contact-card">
+          <h3>Contacto rápido</h3>
+          <p class="muted">Tel: +57 300 123 4567<br>Correo: hola@arboleda.vet</p>
+          <a href="#contacto" class="btn block">Ver mapa</a>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="footer" id="contacto">
+      <div class="footer-inner">
+        <small>© <span id="year"></span> Clínica Arboleda — Hecho con cuidado.</small>
+        <div class="credits muted small">Interacciones, accesibilidad y persistencia local.</div>
       </div>
+    </footer>
+  </div>
+
+  <!-- Modal (lightbox) para la galería -->
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-content" role="document">
+      <button class="modal-close" id="modal-close" aria-label="Cerrar modal">✕</button>
+      <div id="modal-body" tabindex="0"></div>
     </div>
-  </section>
+  </div>
 
-  <section id="contacto">
-    <h2>Contacto</h2>
-    <!-- ...existing code... -->
-<section id="contacto">
-  <h2>Contacto</h2>
-
-  <form id="formContacto" novalidate>
-    <div class="form-row">
-      <label for="nombre">Nombre completo:</label>
-      <input type="text" id="nombre" name="nombre" required>
-    </div>
-
-    <div class="form-row">
-      <label for="email">Correo electrónico:</label>
-      <input type="email" id="email" name="email" required>
-    </div>
-
-    <div class="form-row">
-      <label for="telefono">Teléfono:</label>
-      <input type="tel" id="telefono" name="telefono" pattern="[0-9\s\-\+]{7,15}">
-    </div>
-
-    <div class="form-row">
-      <label for="tipo">Tipo de mascota:</label>
-      <select id="tipo" name="tipo">
-        <option value="perro">Perro</option>
-        <option value="gato">Gato</option>
-        <option value="otro">Otro</option>
-      </select>
-    </div>
-
-    <div class="form-row">
-      <label for="mensaje">Mensaje:</label>
-      <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
-    </div>
-
-    <div class="form-actions">
-      <button type="submit">Enviar consulta</button>
-      <button type="reset">Limpiar</button>
-    </div>
-  </form>
-
-  <div id="respuesta" aria-live="polite"></div>
-</section>
-<!-- ...existing code... -->
-    <p>📍 Dirección: Av.Carrera 86#55A-75 Engativá, Bogotá-Cundinamarca</p>
-    <p>📞 Teléfono: 313 8314615</p>
-    <p>✉️ Email: valentiinaleon@gmail.com</p>
-    
-  </section>
-
-  <footer>
-    <p>© 2025 ValCare Clínica Veterinaria Integral - Todos los derechos reservados</p>
-  </footer>
-
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
