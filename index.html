@@ -1,166 +1,534 @@
+
 <!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ValCare - Cuida a tu mascota</title>
+  
+  <!-- Font Awesome para los iconos del login -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  
+  <!-- Estilos de la App Principal -->
   <link rel="stylesheet" href="styles.css">
+
+  <!-- Estilos para la Pantalla de Autenticación y Mejoras Visuales -->
+  <style>
+    /* --- Estilos para la Pantalla de Login/Registro --- */
+    :root {
+        --primary-color: #4a90e2;
+        --secondary-color: #5cb85c;
+        --accent-color: #f0ad4e;
+        --light-bg: #f4f7f6;
+        --dark-text: #333;
+        --light-text: #fff;
+        --error-color: #d9534f;
+        --border-color: #ddd;
+        --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        --card-bg: #ffffff;
+    }
+
+    /* Contenedor principal que envuelve todo */
+    #app-wrapper {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--light-bg);
+        min-height: 100vh;
+        background-color: #ddf6f8;
+    }
+
+    /* Contenedor de la pantalla de autenticación */
+    #auth-container {
+        display: flex; /* Se muestra por defecto */
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 30px 0;
+    }
+
+    .auth-box {
+        background-color: var(--light-text);
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        width: 100%;
+        max-width: 450px;
+        text-align: center;
+    }
+
+    .auth-header {
+        margin-bottom: 30px;
+    }
+
+    .auth-header i {
+        font-size: 3rem;
+        color: var(--secondary-color);
+        margin-bottom: 10px;
+    }
+
+    .auth-header h2 {
+        color: var(--dark-text);
+        font-weight: 600;
+    }
+
+    .auth-tabs {
+        display: flex;
+        margin-bottom: 25px;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .auth-tab {
+        flex: 1;
+        padding: 10px;
+        background: none;
+        border: none;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #222edf;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+    .auth-tab.active {
+        color: var(--primary-color);
+        border-bottom: 2px solid var(--primary-color);
+        margin-bottom: -1px;
+    }
+
+    .auth-form {
+        display: none; /* Formularios ocultos por defecto */
+    }
+    .auth-form.active {
+        display: block; /* Se muestra el formulario activo */
+    }
+
+    .input-group {
+        position: relative;
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    .input-group i {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6e43be;
+        transition: color 0.3s;
+    }
+
+    .input-group input,
+    .input-group select {
+        width: 100%;
+        padding: 12px 15px 12px 45px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s, box-shadow 0.3s;
+        background-color: #e79d9d;
+    }
+
+    .input-group input:focus,
+    .input-group select:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+    }
+
+    .input-group input:focus + i {
+        color: var(--primary-color);
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #aaa;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 12px;
+        background-color: var(--secondary-color);
+        color: var(--light-text);
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+        margin-top: 10px;
+    }
+
+    .btn:hover {
+        background-color: #4cae4c;
+    }
+
+    .btn:active {
+        transform: scale(0.98);
+    }
+
+    #auth-message {
+        margin-top: 20px;
+        padding: 10px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        display: none;
+    }
+
+    #auth-message.success {
+        background-color: #dff0d8;
+        color: #3c763d;
+        border: 1px solid #d6e9c6;
+    }
+
+    #auth-message.error {
+        background-color: #f2dede;
+        color: #a94442;
+        border: 1px solid #ebccd1;
+    }
+
+    /* Contenedor de la App Principal (oculto por defecto) */
+    #main-app-container {
+        display: none; /* Oculto hasta que se inicie sesión */
+    }
+    
+    /* Estilo para el botón de logout */
+    .logout-btn {
+        background: none;
+        border: 1px solid rgba(255,255,255,0.5);
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        margin-left: auto; /* Empuja el botón a la derecha */
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+    .logout-btn:hover {
+        background-color: rgba(255,255,255,0.1);
+        border-color: white;
+    }
+
+    /* --- NUEVOS ESTILOS PARA LA PÁGINA PRINCIPAL (CUADROS DE TEXTO) --- */
+    
+    .layout {
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        gap: 50px; /* Espacio entre los paneles */
+        padding: 30px;
+        align-items: start;
+    }
+
+    /* Estilo para la sección de introducción */
+    .intro {
+        grid-column: 1 / -1; /* Ocupa las 3 columnas */
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+      background-color: #89daf3;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: var(--card-shadow);
+        text-align: center;
+    }
+    .intro h2 {
+        margin-bottom: 15px;
+    }
+    .intro p.lead {
+        font-size: 1.1rem;
+        color: #555;
+        max-width: 1000px;
+        margin: 0 auto 30px auto;
+    }
+    
+    /* Contenedor de las tarjetas de características */
+    .features {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    /* Estilo para cada tarjeta de característica */
+    .card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: var(--card-shadow);
+        flex-basis: 300px; /* Ancho base de cada tarjeta */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .card h3 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        color: var(--primary-color);
+    }
+
+    /* Estilo para los paneles laterales y central */
+    .panel {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: var(--card-shadow);
+    }
+    .panel h2, .panel h3 {
+        margin-top: 0;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+    .panel hr {
+        border: none;
+        border-top: 1px solid var(--border-color);
+        margin: 25px 0;
+    }
+
+    /* Estilo para la tarjeta de contacto */
+    
+    .contact-card {
+        background-color: #f0f4f5;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 10px;
+        margin-top: 20px;
+    }
+    .contact-card h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+
+    /* Estilo para la galería sin emojis */
+    .gallery {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    .thumb {
+        background-color: #f0f0f0;
+        border: 1px solid #fffefe;
+        border-radius: 8px;
+        padding: 15px 10px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.2s;
+    }
+    .thumb:hover {
+        background-color: #e0e0e0;
+        transform: scale(1.05);
+    }
+
+  </style>
 </head>
+
 <body>
-  <div class="app">
-    <header class="topbar" role="banner">
-      <div class="brand">
-        <svg class="mascot" viewBox="0 0 100 100" aria-hidden="true">
-          <defs>
-            <linearGradient id="g1" x1="0" x2="1">
-              <stop offset="0" stop-color="#FFB77A"/>
-              <stop offset="1" stop-color="#FF8BA3"/>
-            </linearGradient>
-          </defs>
-          <circle cx="50" cy="48" r="36" fill="url(#g1)"/>
-          <circle cx="36" cy="40" r="6" fill="#fff"/>
-          <circle cx="64" cy="40" r="6" fill="#fff"/>
-          <path d="M36 60 Q50 72 64 60" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
-        </svg>
-        <div>
-          <h1>ValCare</h1>
-          <p class="tagline">Salud y ternura para tus compañeros</p>
+
+  <div id="app-wrapper">
+    <!-- ================================= -->
+    <!--  PANTALLA DE AUTENTICACIÓN (LOGIN/REGISTER) -->
+    <!-- ================================= -->
+    <div id="auth-container">
+      <div class="auth-box">
+        <div class="auth-header">
+          <i class="fas fa-paw"></i>
+          <h2>ValCare</h2>
         </div>
-      </div>
 
-      <div class="top-actions">
-        <button id="theme-toggle" aria-pressed="false" title="Cambiar tema">🌙</button>
-        <input id="search-input" type="search" placeholder="Buscar paciente..." aria-label="Buscar paciente">
-        <button id="open-gallery" title="Galería">📸</button>
-      </div>
-    </header>
-
-    <nav class="navigation" role="navigation" aria-label="Navegación principal">
-      <a href="#inicio">Inicio</a>
-      <a href="#servicios">Servicios</a>
-      <a href="#citas">Citas</a>
-      <a href="#pacientes">Pacientes</a>
-      <a href="#contacto">Contacto</a>
-    </nav>
-
-    <main class="layout" id="inicio">
-      <section class="intro" aria-labelledby="intro-title">
-        <h2 id="intro-title">Bienvenido a ValCare</h2>
-        <p class="lead">Cuidamos a tus animales con cariño, ciencia y un poquito de ternura. Aquí tienes herramientas prácticas: agendar citas, registrar pacientes y ver la galería de pacientes felices.</p>
-
-        <div class="features">
-          <article class="card">
-            <h3>Atención integral</h3>
-            <p>Consultas, vacunas y urgencias con profesionales.</p>
-          </article>
-          <article class="card">
-            <h3>Laboratorio</h3>
-            <p>Diagnósticos rápidos y confiables.</p>
-          </article>
-          <article class="card">
-            <h3>Consejos</h3>
-            <p>Guías de cuidado, alimentación y prevención.</p>
-          </article>
+        <div class="auth-tabs">
+          <button class="auth-tab active" data-form="login">Iniciar Sesión</button>
+          <button class="auth-tab" data-form="register">Crear Cuenta</button>
         </div>
-      </section>
 
-      <aside class="panel panel-left" aria-labelledby="citas-title">
-        <h2 id="citas-title">Agendar cita</h2>
-        <form id="appointment-form" novalidate>
-          <label for="pet-name">Nombre de la mascota</label>
-          <input id="pet-name" name="petName" required minlength="2" placeholder="Ej: Oso">
-
-          <div class="row">
-            <label for="owner-name">Dueño/a</label>
-            <input id="owner-name" name="ownerName" required placeholder="Ej: Ana Pérez">
+        <!-- FORMULARIO DE LOGIN -->
+        <form id="login-form" class="auth-form active">
+          <div class="input-group">
+            <input type="email" id="login-email" placeholder="Correo Electrónico" required>
+            <i class="fas fa-envelope"></i>
           </div>
-
-          <div class="row small">
-            <label for="species">Especie</label>
-            <select id="species" name="species">
-              <option value="Perro">Perro</option>
-              <option value="Gato">Gato</option>
-              <option value="Ave">Ave</option>
-              <option value="Exótico">Exótico</option>
-            </select>
-
-            <label for="age">Edad (años)</label>
-            <input id="age" name="age" type="number" min="0" placeholder="2">
+          <div class="input-group">
+            <input type="password" id="login-password" placeholder="Contraseña" required>
+            <i class="fas fa-lock"></i>
           </div>
-
-          <label for="notes">Notas (síntomas / observaciones)</label>
-          <textarea id="notes" name="notes" rows="3" placeholder="Descripción breve..."></textarea>
-
-          <div class="form-actions">
-            <button type="button" class="btn ghost" id="reset-form">Reset</button>
-            <button type="submit" class="btn primary">Reservar cita</button>
-          </div>
-
-          <div id="form-msg" role="status" aria-live="polite" class="muted small"></div>
+          <button type="submit" class="btn">Iniciar Sesión</button>
         </form>
 
-        <hr>
+        <!-- FORMULARIO DE REGISTRO -->
+        <form id="register-form" class="auth-form">
+          <div class="input-group">
+            <input type="text" id="fullName" placeholder="Nombre Completo" required>
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="input-group">
+            <input type="email" id="register-email" placeholder="Correo Electrónico" required>
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div class="input-group">
+            <input type="password" id="register-password" placeholder="Contraseña" required>
+            <i class="fas fa-lock"></i>
+            <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+          </div>
+          <div class="input-group">
+            <input type="password" id="confirmPassword" placeholder="Confirmar Contraseña" required>
+            <i class="fas fa-lock"></i>
+          </div>
+          <button type="submit" class="btn">Crear Cuenta</button>
+        </form>
 
-        <h3>Filtros</h3>
-        <label for="filter-species">Especie</label>
-        <select id="filter-species">
-          <option value="all">Todas</option>
-          <option value="Perro">Perro</option>
-          <option value="Gato">Gato</option>
-        </select>
-      </aside>
-
-      <section class="panel-center" aria-labelledby="patients-title">
-        <h2 id="patients-title">Pacientes registrados <span id="count">0</span></h2>
-
-        <div class="controls">
-          <input id="quick-search" type="search" placeholder="Buscar por nombre o dueño..." aria-label="Buscar pacientes en la tabla">
-          <button id="add-sample" class="btn">+ muestra</button>
-          <button id="clear-all" class="btn ghost">🗑 Limpiar</button>
-        </div>
-
-        <div class="table-wrap" role="region" aria-label="Tabla de pacientes">
-          <table class="pet-table" aria-describedby="pet-desc">
-            <caption id="pet-desc">Pacientes guardados en el sistema</caption>
-            <thead>
-              <tr>
-                <th>Nombre</th><th>Especie</th><th>Edad</th><th>Dueño</th><th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody id="pets-body">
-              <!-- filas dinámicas -->
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <aside class="panel-right" aria-labelledby="gallery-title">
-        <h2 id="gallery-title">Galería</h2>
-        <p class="muted small">Mascotas felices (haz click para ampliar)</p>
-        <div class="gallery" id="gallery">
-          <!-- mini-cards -->
-          <button class="thumb" data-name="Fido" data-species="Perro" aria-label="Abrir Fido">🐶 Fido</button>
-          <button class="thumb" data-name="Misu" data-species="Gato" aria-label="Abrir Misu">🐱 Misu</button>
-          <button class="thumb" data-name="Luna" data-species="Perro" aria-label="Abrir Luna">🐕 Luna</button>
-          <button class="thumb" data-name="Kiwi" data-species="Ave" aria-label="Abrir Kiwi">🦜 Kiwi</button>
-        </div>
-
-        <hr>
-
-        <div class="contact-card">
-          <h3>Contacto rápido</h3>
-          <p class="muted">Tel: +57 313 831 46 15<br>Correo: valentiinaleon@gmail.com</p>
-          <a href="#contacto" class="btn block">Ver mapa</a>
-        </div>
-      </aside>
-    </main>
-
-    <footer class="footer" id="contacto">
-      <div class="footer-inner">
-        <small>© <span id="year"></span> ValCare — Hecho con cuidado.</small>
-        <div class="credits muted small">Interacciones, accesibilidad y persistencia local.</div>
+        <div id="auth-message"></div>
       </div>
-    </footer>
+    </div>
+
+    <!-- ================================= -->
+    <!--  APLICACIÓN PRINCIPAL DE VALCARE -->
+    <!-- ================================= -->
+    <div id="main-app-container">
+      <div class="app">
+        <header class="topbar" role="banner">
+          <div class="brand">
+            <svg class="mascot" viewBox="0 0 100 100" aria-hidden="true">
+              <defs>
+                <linearGradient id="g1" x1="0" x2="1">
+                  <stop offset="0" stop-color="#FFB77A"/>
+                  <stop offset="1" stop-color="#FF8BA3"/>
+                </linearGradient>
+              </defs>
+              <circle cx="50" cy="48" r="36" fill="url(#g1)"/>
+              <circle cx="36" cy="40" r="6" fill="#fff"/>
+              <circle cx="64" cy="40" r="6" fill="#fff"/>
+              <path d="M36 60 Q50 72 64 60" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
+            </svg>
+            <div>
+              <h1>ValCare</h1>
+              <p class="tagline">Donde la ciencia se une al amor</p>
+            </div>
+          </div>
+          <nav class="navigation" role="navigation" aria-label="Navegación principal">
+            <a href="#inicio">Inicio</a>
+            <a href="#servicios">Servicios</a>
+            <a href="#citas">Citas</a>
+            <a href="#pacientes">Pacientes</a>
+            <a href="#contacto">Contacto</a>
+            <!-- Botón de Cerrar Sesión -->
+            <button class="logout-btn" id="logout-btn">Iniciar sesión</button>
+          </nav>
+        </header>
+        
+        <main class="layout" id="inicio">
+          <section class="intro" aria-labelledby="intro-title">
+            <h2 id="intro-title">Bienvenido a ValCare</h2>
+            <p class="lead">Brindamos atención médica integral, preventiva y curativa a animales domésticos y de granja, garantizando su salud, bienestar y productividad mediante servicios veterinarios de calidad, personal capacitado y el uso de tecnologías modernas, promoviendo además la tenencia responsable y el respeto hacia todas las especies animales.</p>
+            <div class="features">
+              <h1>Servicios</h1>
+              <article class="card">
+                
+                <h3>Atención integral</h3>
+                <p>Ofrecemos una atención médica completa, preventiva y curativa para animales domésticos y de granja. Nuestro enfoque integral combina diagnóstico, tratamiento, seguimiento y asesoría personalizada, garantizando el bienestar, la salud y la calidad de vida de cada paciente bajo un cuidado profesional y humano.</p>
+              </article>
+              <article class="card">
+                <h3>Laboratorio</h3>
+                <p>Contamos con un laboratorio especializado para realizar análisis clínicos, hematológicos, bioquímicos y parasitológicos, que permiten obtener diagnósticos precisos y rápidos. Este servicio apoya la atención médica integral, ayudando a detectar enfermedades y controlar la salud de los animales con tecnología confiable y personal capacitado.</p>
+              </article>
+              <article class="card">
+                <h3>Consejos</h3>
+                <p>Ofrecemos consejos prácticos y orientación profesional para el cuidado, la alimentación y la prevención de enfermedades en animales domésticos y de granja. Nuestro objetivo es guiar a los propietarios para que brinden una vida más sana, feliz y segura a sus animales, promoviendo la tenencia responsable y el bienestar animal en cada hogar y finca.</p>
+              </article>
+            </div>
+          </section>
+
+          <aside class="panel panel-left" aria-labelledby="citas-title">
+            <h2 id="citas-title">Agendar cita</h2>
+            <form id="appointment-form" novalidate>
+              <label for="pet-name">Nombre de la mascota</label>
+              <input id="pet-name" name="petName" required minlength="2" placeholder="Ej: Oso">
+              <div class="row">
+                <label for="owner-name">Dueño/a</label>
+                <input id="owner-name" name="ownerName" required placeholder="Ej: Ana Pérez">
+              </div>
+              <div class="row small">
+                <label for="species">Especie</label>
+                <select id="species" name="species">
+                  <option value="Perro">Perro</option>
+                  <option value="Gato">Gato</option>
+                  <option value="Exótico">Exótico</option>
+                </select>
+                <label for="age">Edad (años)</label>
+                <input id="age" name="age" type="number" min="0" placeholder="2">
+              </div>
+              <label for="notes">Notas (síntomas / observaciones)</label>
+              <textarea id="notes" name="notes" rows="3" placeholder="Descripción breve..."></textarea>
+              <div class="form-actions">
+                
+                <button type="submit" class="btn primary">Reservar cita</button>
+              </div>
+              <div id="form-msg" role="status" aria-live="polite" class="muted small"></div>
+            </form>
+            <hr>
+            <h3>Filtros</h3>
+            <label for="filter-species">Especie</label>
+            <select id="filter-species">
+              <option value="all">Todas</option>
+              <option value="Perro">Perro</option>
+              <option value="Gato">Gato</option>
+            </select>
+          </aside>
+
+          
+
+          <aside class="panel panel-right" aria-labelledby="gallery-title">
+            <h2 id="gallery-title">Galería</h2>
+            <p class="muted small">Mascotas felices (haz click para ampliar)</p>
+            <div class="gallery" id="gallery">
+              <!-- Se reemplazaron los emojis por texto -->
+              <button class="thumb" aria-label="Abrir Fido">Ver foto de Fido</button><img src="" alt="">
+              <button class="thumb" aria-label="Abrir Misu">Ver foto de Misu</button>
+              <button class="thumb" aria-label="Abrir Luna">Ver foto de Luna</button>
+              <button class="thumb" aria-label="Abrir Kiwi">Ver foto de Kiwi</button>
+            </div>
+            </aside>
+            <hr>
+            <div class="contact-card">
+              <h2>Contáctanos</h2>
+  <form action="mailto:valcare@ejemplo.com" method="POST" enctype="text/plain">
+    <label for="nombre">Nombre completo:</label>
+    <input type="text" id="nombre" name="nombre" required />
+
+    <label for="correo">Correo electrónico:</label>
+    <input type="email" id="correo" name="correo" required />
+
+    <label for="asunto">Asunto:</label>
+    <input type="text" id="asunto" name="asunto" required />
+
+    <label for="mensaje">Mensaje:</label>
+    <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+
+    <button type="submit">Enviar mensaje</button>
+  </form>
+</section>
+<br>
+              <h3>Contacto rápido</h3>
+              <p class="muted">Tel: +57 313 831 46 15<br>Correo: valentiinaleon@gmail.com <br>
+              <p></p>Instagram: valentiiinaa23_vet</p>
+              <a href="#contacto" class="btn block">Ver mapa</a><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.4758807913704!2d-74.10886142603438!3d4.6870522417778515!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f9b1b3936a4bb%3A0x4a5ed815045c1bd3!2sCl.%2066a%20%2380-17%2C%20Bogot%C3%A1!5e0!3m2!1ses-419!2sco!4v1761715828416!5m2!1ses-419!2sco" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+          
+        </main>
+
+        <footer class="footer" id="contacto">
+          <div class="footer-inner">
+            <small>© <span id="year"></span> ValCare — Hecho con cuidado.</small>
+            <div class="credits muted small">Interacciones, accesibilidad y persistencia local.</div>
+            <section id="contacto">
+  
+
+          </div>
+        </footer>
+      </div>
+    </div>
   </div>
 
   <!-- Modal (lightbox) para la galería -->
@@ -171,6 +539,132 @@
     </div>
   </div>
 
+  <!-- ================================= -->
+  <!--  SCRIPTS -->
+  <!-- ================================= -->
+  
+  <!-- Script para la lógica de Autenticación -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const authContainer = document.getElementById('auth-container');
+        const mainAppContainer = document.getElementById('main-app-container');
+        const authTabs = document.querySelectorAll('.auth-tab');
+        const authForms = document.querySelectorAll('.auth-form');
+        const authMessage = document.getElementById('auth-message');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        // --- Referencias a formularios ---
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const togglePassword = document.getElementById('togglePassword');
+        const registerPasswordInput = document.getElementById('register-password');
+
+        // --- LÓGICA DE PERSISTENCIA DE SESIÓN ---
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            showMainApp();
+        }
+
+        // --- FUNCIONES AUXILIARES ---
+        function showMessage(text, type) {
+            authMessage.textContent = text;
+            authMessage.className = type; // 'success' o 'error'
+            authMessage.style.display = 'block';
+            setTimeout(() => {
+                authMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        function showMainApp() {
+            authContainer.style.display = 'none';
+            mainAppContainer.style.display = 'block';
+            localStorage.setItem('isLoggedIn', 'true');
+        }
+
+        function showAuthScreen() {
+            authContainer.style.display = 'flex';
+            mainAppContainer.style.display = 'none';
+            localStorage.removeItem('isLoggedIn');
+        }
+
+        // --- LÓGICA DE TABS (LOGIN/REGISTER) ---
+        authTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetForm = tab.dataset.form;
+                
+                authTabs.forEach(t => t.classList.remove('active'));
+                authForms.forEach(f => f.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(`${targetForm}-form`).classList.add('active');
+            });
+        });
+
+        // --- LÓGICA DE REGISTRO ---
+        registerForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('register-email').value;
+            const password = registerPasswordInput.value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                showMessage('Las contraseñas no coinciden.', 'error');
+                return;
+            }
+            if (password.length < 6) {
+                showMessage('La contraseña debe tener al menos 6 caracteres.', 'error');
+                return;
+            }
+
+            let usersDB = JSON.parse(localStorage.getItem('usersDB')) || { cliente: [] };
+            if (usersDB.cliente.some(user => user.email === email)) {
+                showMessage('Este correo electrónico ya está registrado.', 'error');
+                return;
+            }
+
+            const newUser = { fullName, email, password }; // NOTA: En un backend real, ¡NUNCA guardes contraseñas en texto plano!
+            usersDB.cliente.push(newUser);
+            localStorage.setItem('usersDB', JSON.stringify(usersDB));
+
+            showMessage('¡Cuenta creada exitosamente! Redirigiendo...', 'success');
+            setTimeout(showMainApp, 1500);
+        });
+
+        // --- LÓGICA DE LOGIN ---
+        loginForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            const usersDB = JSON.parse(localStorage.getItem('usersDB')) || { cliente: [] };
+            const user = usersDB.cliente.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                showMessage('¡Inicio de sesión exitoso! Redirigiendo...', 'success');
+                setTimeout(showMainApp, 1500);
+            } else {
+                showMessage('Correo o contraseña incorrectos.', 'error');
+            }
+        });
+
+        // --- LÓGICA DE CERRAR SESIÓN ---
+        logoutBtn.addEventListener('click', () => {
+            showAuthScreen();
+        });
+
+        // --- LÓGICA PARA MOSTRAR/OCULTAR CONTRASEÑA ---
+        togglePassword.addEventListener('click', () => {
+            const type = registerPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            registerPasswordInput.setAttribute('type', type);
+            togglePassword.classList.toggle('fa-eye');
+            togglePassword.classList.toggle('fa-eye-slash');
+        });
+    });
+  </script>
+
+  <!-- Script para la lógica de la App Principal (el original) -->
   <script src="script.js" defer></script>
+
 </body>
 </html>
+```
